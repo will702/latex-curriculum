@@ -1,0 +1,51 @@
+% components/cover.tex — Title page
+% -----------------------------------
+% Minimal academic cover: series band, title, rule, subtitle, author,
+% institution, edition badge. Swap the TikZ motif to re-theme.
+\begin{titlepage}
+  \thispagestyle{empty}
+  \centering
+  \vspace*{18mm}
+
+  % Series band
+  {\color{navy}\rule{0.62\textwidth}{0.5pt}}\\[6pt]
+  {\sffamily\small\bfseries\color{slate}\MakeUppercase{\CurriculumSeries}}\\[3pt]
+  {\color{navy}\rule{0.62\textwidth}{0.5pt}}
+
+  \vspace{16mm}
+
+  % Geometric motif: parabola envelope + secant (inequalities theme)
+  \begin{tikzpicture}[scale=1.0, line width=0.9pt]
+    \draw[color=navy,   domain=-1.9:1.9, smooth] plot (\x, {0.42*\x*\x});
+    \draw[color=gold]   (-1.6, {0.42*1.6*1.6}) -- (1.6, {0.42*1.6*1.6});
+    \fill[color=gold]   (0, {0.42*1.6*1.6}) circle (1.6pt);
+    \draw[color=slate,  line width=0.5pt] (-2.25,0) -- (2.25,0);
+  \end{tikzpicture}
+
+  \vspace{14mm}
+
+  % Title block
+  {\fontsize{30}{34}\selectfont\sffamily\bfseries\color{navy}
+    \CurriculumTitle\par}
+  \vspace{7mm}
+  {\large\itshape\color{slate}\CurriculumSubtitle\par}
+
+  \vspace{18mm}
+
+  % Author & institution
+  {\large\CurriculumAuthor\par}
+  \vspace{2mm}
+  {\normalsize\color{slate}\CurriculumInstitution\par}
+
+  \vfill
+
+  % Edition badge + date
+  {\sffamily\small\bfseries\color{white}%
+    \tcbox[on line, boxrule=0pt, arc=2pt, left=8pt, right=8pt, top=3.5pt,
+           bottom=3.5pt, colback=navy, colframe=navy]
+      {\CurriculumEdition}}\par
+  \vspace{5mm}
+  {\small\color{slate}\CurriculumDate\quad\textbullet\quad\CurriculumVersion\par}
+
+  \vspace{10mm}
+\end{titlepage}

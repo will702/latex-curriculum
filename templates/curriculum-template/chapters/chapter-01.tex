@@ -1,0 +1,393 @@
+% chapters/chapter-01.tex — Inequalities I: AM–GM and Cauchy–Schwarz
+% Demonstrates every component of the design system with real content.
+
+\chapter{Inequalities I: \texorpdfstring{AM--GM}{AM-GM} and
+         \texorpdfstring{Cauchy--Schwarz}{Cauchy-Schwarz}}
+\label{ch:ineq1}
+
+\begin{objectives}
+\begin{itemize}
+  \objective State and prove the arithmetic--geometric mean inequality
+    for two and for $n$ positive reals, including Cauchy's
+    forward--backward induction.
+  \objective State and prove the Cauchy--Schwarz inequality in two
+    ways (discriminant method and Lagrange identity).
+  \objective Use the Engel (Titu) form of Cauchy--Schwarz to
+    homogenize and crush fraction-sum inequalities.
+  \objective Track \emph{equality cases} in every application---the
+    difference between an answer and a solution.
+\end{itemize}
+\end{objectives}
+
+\begin{prerequisites}
+\begin{itemize}
+  \item Fluency with algebraic manipulation: expanding, factoring,
+    completing the square.
+  \item Proof by induction (we will extend it in an unusual direction).
+  \item Basic sums $\sumi$ notation and its manipulation.
+\end{itemize}
+\end{prerequisites}
+
+\section{Why Inequalities?}
+
+Exact equalities are the exception in mathematics; controlled
+imprecision is the rule. An olympiad inequality problem asks you to
+bound one quantity by another, and---crucially---to identify exactly
+when the bound is achieved. That second demand is what turns
+inequalities from cookbook algebra into proof-writing.
+
+Almost everything in this chapter grows from a single observation:
+squares are never negative. From $(a-b)^2 \ge 0$ we will build the
+arithmetic--geometric mean inequality (\cref{sec:amgm}), and from a
+cleverly chosen quadratic we will build Cauchy--Schwarz
+(\cref{sec:cs}). Between them, these two results settle a remarkable
+share of competition problems; the classic references are
+\cite{steele2004, hlp1952}, and \cite{engel1998} catalogs them by
+tactic.
+
+\begin{keyidea}[One source, many rivers]\label{key:source}
+Whenever you meet a symmetric inequality in positive variables, ask:
+\emph{can I trace it back to a sum of squares?} The three master tools
+of this chapter---AM--GM, Cauchy--Schwarz, and the Engel form---are
+all squares in disguise.
+\end{keyidea}
+
+\section{The Arithmetic--Geometric Mean Inequality}
+\label{sec:amgm}
+
+\begin{definition}[Arithmetic and geometric means]\label{def:amgm}
+For positive real numbers $a_1, a_2, \dots, a_n$, the
+\emph{arithmetic mean} $A$ and \emph{geometric mean} $G$ are
+\[
+  A \coloneqq \frac{a_1 + a_2 + \cdots + a_n}{n},
+  \qquad
+  G \coloneqq \sqrt[n]{a_1 a_2 \cdots a_n}.
+\]
+\end{definition}
+
+We begin with the case $n = 2$, where the entire content is one
+perfect square.
+
+\begin{theorem}[AM--GM, two variables]\label{thm:amgm2}
+For all positive reals $a, b$,
+\[
+  \frac{a+b}{2} \;\ge\; \sqrt{ab},
+  \qquad\text{with equality if and only if } a = b.
+\]
+\end{theorem}
+
+\begin{proof}
+For any real $t$ we have $(t)^2 \ge 0$. Taking $t = a - b$ and
+expanding,
+\[
+  (a-b)^2 = a^2 - 2ab + b^2 \ge 0
+  \quad\Longrightarrow\quad
+  a^2 + b^2 \ge 2ab .
+\]
+Add $2ab$ to both sides:
+\[
+  a^2 + 2ab + b^2 \ge 4ab
+  \quad\Longleftrightarrow\quad
+  (a+b)^2 \ge 4ab .
+\]
+Both sides are positive, so taking square roots preserves the
+inequality: $a + b \ge 2\sqrt{ab}$, which is the claim. Equality
+forces $(a-b)^2 = 0$, i.e.\ $a = b$.
+\end{proof}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[scale=1.35, line cap=round]
+    % Square of side a+b (a = 2.2, b = 1.0), split into a 2x2 grid:
+    % top-left a^2, top-right ab, bottom-left ab, bottom-right b^2.
+    \draw[fill=navylight]  (0,0)   rectangle (2.2,3.2);   % left column
+    \draw[fill=goldlight]  (2.2,0) rectangle (3.2,3.2);   % right column
+    \draw[fill=goldlight]  (0,0)   rectangle (2.2,1.0);   % bottom-left ab
+    \draw[very thick, color=navy] (0,0) rectangle (3.2,3.2);
+    % Partition lines: vertical after a=2.2, horizontal after b=1.0.
+    \draw[thick, color=navy] (2.2,0) -- (2.2,3.2);
+    \draw[thick, color=navy] (0,1.0) -- (3.2,1.0);
+    % Area labels
+    \node at (1.1,2.1)  {\large $a^2$};
+    \node at (2.7,2.1)  {\large $ab$};
+    \node at (1.1,0.5)  {\large $ab$};
+    \node at (2.7,0.5)  {\large $b^2$};
+    % Side length labels
+    \node[below=2pt] at (1.1,0) {\small $a$};
+    \node[below=2pt] at (2.7,0) {\small $b$};
+    \node[left=2pt]  at (0,0.5) {\small $b$};
+    \node[left=2pt]  at (0,2.1) {\small $a$};
+    % Side brace: total side a+b
+    \draw[decorate, decoration={brace, amplitude=5pt}, color=slate]
+      (3.2,0) -- (3.2,3.2) node[midway, right=6pt, color=slate] {\small $a+b$};
+  \end{tikzpicture}
+  \caption{The proof of \cref{thm:amgm2} as geometry. The square of
+  side $a+b$ has area $(a+b)^2 = a^2 + 2ab + b^2$; since $a^2 + b^2
+  \ge 2ab$ (the two corner squares beat the two $ab$ rectangles in
+  total), the area is always at least $4ab$. Equality is the perfectly
+  symmetric picture $a = b$, where all four pieces are congruent.}
+  \label{fig:amgm-square}
+\end{figure}
+
+The general case is one of the most elegant induction arguments in
+all of mathematics---\emph{Cauchy's forward--backward induction}. The
+statement $P(n)$ is: AM--GM holds for every $n$-tuple of positive
+reals. We prove $P(2)$, then $P(n) \Rightarrow P(2n)$ (forward), then
+$P(n) \Rightarrow P(n-1)$ (backward). From $P(2)$ we thus get $P(4),
+P(8, \dots$ and backward reach \emph{every} integer.
+
+\begin{theorem}[AM--GM, general]\label{thm:amgm}
+For all positive reals $a_1, \dots, a_n$,
+\[
+  \frac{a_1 + \cdots + a_n}{n} \;\ge\; \sqrt[n]{a_1 \cdots a_n},
+  \qquad\text{with equality iff } a_1 = \cdots = a_n.
+\]
+\end{theorem}
+
+\begin{proof}
+We follow the plan above.
+
+\emph{Base $P(2)$:} \cref{thm:amgm2}.
+
+\emph{Forward step $P(n) \Rightarrow P(2n)$:} Given $2n$ positive
+reals $a_1, \dots, a_{2n}$, split them into two blocks of $n$. Writing
+$A_1, G_1$ for the means of the first block and $A_2, G_2$ for the
+second, and applying $P(n)$ to each block and then $P(2)$ to the pair
+$(A_1, A_2)$:
+\[
+  \frac{a_1 + \cdots + a_{2n}}{2n}
+  = \frac{A_1 + A_2}{2}
+  \ge \frac{G_1 + G_2}{2}
+  \ge \sqrt{G_1 G_2}
+  = \sqrt[2n]{a_1 \cdots a_{2n}} .
+\]
+Equality forces $A_1 = G_1$, $A_2 = G_2$ (so each block is constant)
+and $G_1 = G_2$ (so the constants agree): all $2n$ entries are equal.
+
+\emph{Backward step $P(n) \Rightarrow P(n-1)$:} Given $n - 1$
+positive reals $a_1, \dots, a_{n-1}$, let $m$ be their arithmetic
+mean and \emph{adjoin the mean itself as an $n$-th entry}. The
+enlarged list $a_1, \dots, a_{n-1}, m$ has arithmetic mean
+\[
+  \frac{(a_1 + \cdots + a_{n-1}) + m}{n}
+  = \frac{(n-1)m + m}{n} = m,
+\]
+so applying $P(n)$ to it yields
+\[
+  m \;\ge\; \sqrt[n]{a_1 \cdots a_{n-1} \cdot m}
+  \quad\Longrightarrow\quad
+  m^n \ge a_1 \cdots a_{n-1} \cdot m
+  \quad\Longrightarrow\quad
+  m^{n-1} \ge a_1 \cdots a_{n-1},
+\]
+where we divided by $m > 0$. Taking $(n-1)$-th roots gives $m \ge
+\sqrt[n-1]{a_1 \cdots a_{n-1}}$, which is $P(n-1)$. Equality in
+$P(n)$ forces the enlarged list to be constant; since its last entry
+is $m$, the original $n-1$ entries all equal $m$.
+
+Starting from $P(2)$, forward induction gives $P(2^k)$ for all $k$;
+for any $n$, choose $k$ with $2^k \ge n$ and descend by the backward
+step. \end{proof}
+
+\begin{example}[The workhorse $x + 1/x$]\label{ex:reciprocal}
+For every $x > 0$,
+\[
+  x + \frac{1}{x} \;\ge\; 2\sqrt{x \cdot \tfrac{1}{x}} = 2,
+  \qquad\text{equality iff } x = 1 .
+\]
+\Cref{fig:x-reciprocal} shows why this single line solves many
+problems: the function dips to its minimum exactly once, tangentially.
+\end{example}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=0.72\textwidth, height=5.6cm,
+      axis lines = middle,
+      xlabel={$x$}, ylabel={$y$},
+      xmin=0, xmax=4.4, ymin=0, ymax=6.4,
+      xtick={1,2,3,4}, ytick={2,4,6},
+      tick label style={font=\small},
+      label style={font=\small},
+      grid=both, grid style={rulegray!35},
+      major grid style={rulegray!55},
+    ]
+      \addplot[very thick, color=navy, domain=0.28:4.2, samples=140]
+        {x + 1/x};
+      \addplot[dashed, color=gold, thick] (0,2) -- (4.4,2);
+      \addplot[dashed, color=slate, thick] (1,0) -- (1,2);
+      \addplot[only marks, mark=*, mark size=2.2pt, color=gold]
+        coordinates {(1,2)};
+      \node[font=\small, color=slate, anchor=west] at (axis cs:2.15,1.4)
+        {minimum $=2$ at $x=1$};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{$f(x) = x + 1/x$ lies above the line $y = 2$ for all
+  $x>0$, touching it only at $x=1$: AM--GM made visible.}
+  \label{fig:x-reciprocal}
+\end{figure}
+
+\begin{example}[Fixed perimeter, maximal area]\label{ex:perimeter}
+Among all rectangles with perimeter $P$, the square has the largest
+area.
+
+\begin{exsolution}
+Let the side lengths be $a, b > 0$ with $a + b = P/2$. By
+\cref{thm:amgm2},
+\[
+  ab \;\le\; \left(\frac{a+b}{2}\right)^{\!2} = \frac{P^2}{16},
+  \qquad\text{equality iff } a = b = \frac{P}{4}.
+\]
+The maximal area $P^2/16$ is achieved precisely by the square.
+\end{exsolution}
+\end{example}
+
+\begin{pitfall}[Forgetting the domain]\label{pit:domain}
+AM--GM demands \emph{positive} reals. The step $x^2 \le y^2
+\Rightarrow x \le y$ used in \cref{thm:amgm2} fails for negative
+values, and $\sqrt[n]{\cdot}$ is not even defined (in $\R$) for
+negative inputs and even $n$. When a variable can vanish, run AM--GM
+on $\varepsilon$-shifted variables or split off the degenerate case.
+\end{pitfall}
+
+\section{Cauchy--Schwarz and Its Engel Form}
+\label{sec:cs}
+
+\begin{theorem}[Cauchy--Schwarz]\label{thm:cs}
+For all real numbers $a_1, \dots, a_n$ and $b_1, \dots, b_n$,
+\[
+  \left( \sumk a_k b_k \right)^{\!2}
+  \;\le\;
+  \left( \sumk a_k^2 \right)
+  \left( \sumk b_k^2 \right),
+\]
+with equality iff the vectors $(a_k)$ and $(b_k)$ are proportional.
+\end{theorem}
+
+\begin{proof}[First proof (the discriminant trick)]
+If all $a_k$ vanish the claim is trivial, so assume
+$\sumk a_k^2 > 0$. For every real $t$,
+\[
+  f(t) \;\coloneqq\; \sumk (a_k t + b_k)^2
+  = \Big(\sumk a_k^2\Big) t^2
+  + 2\Big(\sumk a_k b_k\Big) t
+  + \sumk b_k^2
+  \;\ge\; 0,
+\]
+being a sum of squares. Thus the quadratic $f$ never dips below zero,
+so its discriminant is at most $0$:
+\[
+  \Delta = 4\left(\sumk a_k b_k\right)^{\!2}
+  - 4\left(\sumk a_k^2\right)\left(\sumk b_k^2\right) \le 0,
+\]
+which rearranges to the claim. Equality means $f$ has a real double
+root $t_0$: then $a_k t_0 + b_k = 0$ for every $k$, i.e.\ the vectors
+are proportional.
+\end{proof}
+
+\begin{proof}[Second proof (Lagrange identity)]
+Expanding the right-hand side minus the left:
+\[
+  \left(\sumk a_k^2\right)\!\left(\sumk b_k^2\right)
+  - \left(\sumk a_k b_k\right)^{\!2}
+  = \sum_{1 \le i < j \le n} \left( a_i b_j - a_j b_i \right)^2 \!\ge 0 .
+\]
+Every summand on the right is a square. Equality forces
+$a_i b_j = a_j b_i$ for all pairs $i<j$, which for nonzero vectors
+says exactly: proportional.
+\end{proof}
+
+\begin{corollary}[Engel form / Titu's lemma]\label{cor:engel}
+For positive reals $b_1, \dots, b_n$ and arbitrary reals
+$a_1, \dots, a_n$,
+\[
+  \sumk \frac{a_k^2}{b_k}
+  \;\ge\;
+  \frac{(a_1 + \cdots + a_n)^2}{b_1 + \cdots + b_n},
+\]
+with equality iff the ratios $a_k / b_k$ are all equal.
+\end{corollary}
+
+\begin{proof}
+Apply \cref{thm:cs} to the vectors
+$\big(a_1/\sqrt{b_1}, \dots, a_n/\sqrt{b_n}\big)$ and
+$\big(\sqrt{b_1}, \dots, \sqrt{b_n}\big)$:
+\[
+  (a_1 + \cdots + a_n)^2
+  = \left(\sumk \frac{a_k}{\sqrt{b_k}} \cdot \sqrt{b_k}\right)^{\!2}
+  \le \left(\sumk \frac{a_k^2}{b_k}\right)
+       \left(\sumk b_k\right). \qedhere
+\]
+\end{proof}
+
+The Engel form turns sums of fractions into one fraction---a
+\emph{homogenizing} move of enormous competitive value.
+
+\begin{example}[Nesbitt's inequality]\label{ex:nesbitt}
+For $a, b, c > 0$,
+\[
+  \frac{a}{b+c} + \frac{b}{c+a} + \frac{c}{a+b} \;\ge\; \frac{3}{2}.
+\]
+
+\begin{exsolution}
+Write each term with a square on top,
+$\dfrac{a}{b+c} = \dfrac{a^2}{ab+ac}$, and apply \cref{cor:engel} to
+the three fractions:
+\[
+  \frac{a^2}{ab+ac} + \frac{b^2}{bc+ba} + \frac{c^2}{ca+cb}
+  \;\ge\;
+  \frac{(a+b+c)^2}{2(ab+bc+ca)} .
+\]
+Now $(a+b+c)^2 \ge 3(ab+bc+ca)$, because the difference is
+$\tfrac{1}{2}\big[(a-b)^2 + (b-c)^2 + (c-a)^2\big] \ge 0$. Hence the
+right side is at least
+$\tfrac{3(ab+bc+ca)}{2(ab+bc+ca)} = \tfrac{3}{2}$. Equality holds
+exactly at $a = b = c$.
+\end{exsolution}
+\end{example}
+
+\begin{strategy}[The Engel playbook]\label{str:engel}
+When a target inequality involves $\sum \frac{(\text{something})^2}
+{\text{something}}$---or can be massaged into that shape:
+\begin{enumerate}[label=\arabic*., itemsep=2pt]
+  \item force a square into each numerator
+        ($\frac{a}{b+c} \mapsto \frac{a^2}{ab+ac}$);
+  \item apply \cref{cor:engel} to collapse the sum to one fraction;
+  \item clean up with whatever symmetric bound remains
+        (often $(a+b+c)^2 \ge 3(ab+bc+ca)$);
+  \item \emph{verify the equality case} before declaring victory.
+\end{enumerate}
+Many further worked examples of this playbook appear in
+\cite{andreescu2000, kedlaya1999}.
+\end{strategy}
+
+\ifstudent\else
+\begin{instructornote}
+When teaching \cref{ex:nesbitt}, resist writing the Engel application
+immediately. First let students try common denominators and watch the
+combinatorial explosion---the motivation for homogenization lands much
+harder after twenty seconds of suffering.
+\end{instructornote}
+\fi
+
+\section{Problems}
+\label{sec:problems-1}
+
+\noindent Difficulty is marked on the five-star scale explained in the
+front matter. Attempt each problem before reading its hint.
+
+\input{exercises/problems-01}
+
+\section{Hints}
+\label{sec:hints-1}
+
+\input{exercises/hints-01}
+
+\ifstudent\else
+\section{Solutions}
+\label{sec:solutions-1}
+\input{exercises/solutions-01}
+\fi
+
+\input{components/chapter-summary}

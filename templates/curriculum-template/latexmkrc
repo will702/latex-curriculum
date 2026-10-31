@@ -1,0 +1,29 @@
+# latexmkrc — build configuration for the curriculum template
+# -------------------------------------------------------------
+# Engine: LuaLaTeX. Output: output/ directory.
+# Usage:  latexmk              (builds instructor.tex by default)
+#         latexmk student.tex  (student edition)
+
+# LuaLaTeX via latexmk's pdf_mode 4.
+$pdf_mode = 4;
+$lualatex = 'lualatex -file-line-error -synctex=1 -interaction=nonstopmode %O %S';
+
+# Keep the build tree tidy: everything lands in output/.
+$out_dir = 'output';
+$aux_dir = 'output';
+
+# Bibliography: natbib + bibtex.
+$bibtex_use = 2;
+
+# Default target is the instructor edition.
+@default_files = ('instructor.tex');
+
+# Files latexmk should clean (in addition to defaults).
+$clean_ext = 'bbl nav out run.xml synctex.gz.gz fdb_latexmk fls xdv '
+           . 'bcf -blx.bib -include.tex *-include.tex';
+
+# Continuous preview-friendly: don't spam the console.
+$silent = 0;
+
+# Silence "Rerun to get cross-references right" churn by allowing
+# latexmk to manage reruns automatically (its default behavior).

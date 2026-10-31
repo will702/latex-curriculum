@@ -1,0 +1,67 @@
+% config/layout.tex — Page geometry, headers/footers, sectioning
+% ---------------------------------------------------------------
+% Loaded after typography + colors.
+
+% ---- Page geometry (print-ready, A4, twoside) ----------------
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  twoside,
+  inner       = 26mm,   % binding side keeps a little extra
+  outer       = 22mm,
+  top         = 26mm,
+  bottom      = 28mm,
+  headheight  = 14pt,
+  headsep     = 9mm,
+  footskip    = 11mm,
+  marginparwidth = 24mm, % room for future marginal notes
+  marginparsep = 5mm,
+}
+
+% ---- Running heads & folios ----------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+% Even (verso): chapter title centered-in-left, folio on left edge.
+\fancyhead[LE]{\small\sffamily\color{slate}\nouppercase{\leftmark}}
+\fancyhead[RO]{\small\sffamily\color{slate}\nouppercase{\rightmark}}
+\fancyfoot[LE]{\small\sffamily\color{navy}\thepage}
+\fancyfoot[RO]{\small\sffamily\color{navy}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{rulegray}\hrule width\headwidth height 0.4pt}
+% Chapter-open pages: folio only, no head rule.
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\small\sffamily\color{navy}\thepage}%
+  \renewcommand{\headrulewidth}{0pt}}
+
+% ---- Sectioning hierarchy ------------------------------------
+\usepackage{titlesec}
+% Chapters: big display number, navy title, hairline rule beneath.
+\titleformat{\chapter}[display]
+  {\normalfont\sffamily}
+  {\color{navymid}\fontsize{30}{30}\selectfont\thechapter}
+  {10pt}
+  {\color{navy}\fontsize{22}{26}\selectfont\bfseries}
+  [\vspace{6pt}{\color{rulegray}\titlerule[0.6pt]}\vspace{4pt}]
+\titlespacing*{\chapter}{0pt}{-18pt}{26pt}
+% Sections: navy sans bold with breathing room.
+\titleformat{\section}
+  {\normalfont\large\sffamily\bfseries\color{navy}}
+  {\thesection}{0.8em}{}
+\titlespacing*{\section}{0pt}{18pt plus 4pt minus 2pt}{7pt plus 2pt}
+% Subsections: ink sans bold, smaller.
+\titleformat{\subsection}
+  {\normalfont\normalsize\sffamily\bfseries\color{ink}}
+  {\thesubsection}{0.8em}{}
+\titlespacing*{\subsection}{0pt}{13pt plus 3pt minus 2pt}{5pt plus 1pt}
+
+% ---- Table of contents depth ---------------------------------
+\setcounter{tocdepth}{1}        % chapters + sections
+\setcounter{secnumdepth}{2}
+
+% ---- List spacing (with enumitem, loaded in environments) ----
+% Tuned here so lists inside tight boxes stay readable.
+\AtBeginDocument{%
+  \setlist{topsep=4pt, itemsep=2.5pt, parsep=0pt}%
+}

@@ -1,0 +1,30 @@
+% exercises/hints-01.tex — Hints for Chapter 1 problems
+% Convention: one hint per problem, escalating specificity. Numbering
+% matches the exercise counter; challenges are prefixed C.
+
+\begin{itemize}[leftmargin=2.2em, itemsep=5pt, label={}]
+  \item[\textbf{1.}] Direct AM--GM on the pair $\big(x, \tfrac{4}{x}\big)$.
+    What is the product of the two terms?
+  \item[\textbf{2.}] Expand, then pair each fraction with its
+    reciprocal twin: $\tfrac{a}{b} + \tfrac{b}{a} \ge 2$.
+  \item[\textbf{3.}] Cauchy--Schwarz with
+    $(1, 1, 1) \cdot (a, b, c)$: bound $(a+b+c)^2$ from above by
+    $3(a^2+b^2+c^2)$.
+  \item[\textbf{4.}] Multiply the desired inequality by $2$ and
+    recognize three perfect squares.
+  \item[\textbf{5.}] AM--GM on three terms; the constraint $xyz = 1$
+    makes the geometric mean equal to $1$.
+  \item[\textbf{6.}] Bound each factor separately by AM--GM, then
+    multiply the three bounds.
+  \item[\textbf{7.}] Cauchy--Schwarz on
+    $(\sqrt a + \sqrt b + \sqrt c)^2$; equality analysis will
+    identify the maximizer.
+  \item[\textbf{8.}] Engel form (\cref{cor:engel}) collapses the
+    three fractions; the denominator becomes $2(x+y+z)$.
+  \item[\textbf{C1.}] Prove the pointwise bound
+    $\dfrac{a^3}{a^2+ab+b^2} \ge \dfrac{2a-b}{3}$
+    by clearing denominators, then sum.
+  \item[\textbf{C2.}] Engel form rewrites the left side as
+    $\sum \frac{a^2}{a\sqrt{a^2+8bc}}$. Then Cauchy--Schwarz once
+    more, expand $(a+b+c)^3$, and finish with six-term AM--GM.
+\end{itemize}

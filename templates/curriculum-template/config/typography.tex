@@ -1,0 +1,66 @@
+% config/typography.tex — Fonts, math setup, micro-typography
+% ------------------------------------------------------------
+% Requires LuaLaTeX (fontspec + unicode-math, loaded in main.tex
+% BEFORE this file). Loaded after config/colors.tex.
+
+% ---- Font set toggle ----------------------------------------
+% pagella : TeX Gyre Pagella + Pagella Math  (warm "olympiad book" look)
+% modern  : Latin Modern + LM Math            (classic journal look)
+\newif\ifpagellafonts
+\pagellafontstrue   % <- flip to \pagellafontsfalse for Latin Modern
+
+\ifpagellafonts
+  \setmainfont{TeX Gyre Pagella}[
+    Ligatures   = TeX,
+    BoldFont    = *-Bold,
+    ItalicFont  = *-Italic,
+    BoldItalicFont = *-BoldItalic,
+  ]
+  \setsansfont{TeX Gyre Heros}[
+    Scale       = 0.92,
+    BoldFont    = *-Bold,
+    ItalicFont  = *-Italic,
+    BoldItalicFont = *-BoldItalic,
+  ]
+  \setmonofont{Latin Modern Mono}[Scale=0.88]
+  \setmathfont{TeX Gyre Pagella Math}
+\else
+  \setmainfont{Latin Modern Roman}
+  \setsansfont{Latin Modern Sans}[Scale=0.92]
+  \setmonofont{Latin Modern Mono}[Scale=0.88]
+  \setmathfont{Latin Modern Math}
+\fi
+
+% Sans font is reserved for labels, running heads, box titles and
+% difficulty badges; body and math stay serif for readability.
+\newcommand{\labeltext}[1]{{\sffamily\bfseries\color{navy}#1}}
+
+% ---- Micro-typography ---------------------------------------
+% Protrusion + font expansion: subtle but lifts the page a full notch.
+\usepackage{microtype}
+\microtypesetup{
+  protrusion = true,
+  expansion  = true,
+  factor     = 900,
+}
+
+% ---- Spacing conventions ------------------------------------
+% A touch more leading than default: long math-heavy paragraphs
+% with display equations read better.
+\usepackage{setspace}
+\setstretch{1.04}
+
+% Display math: slightly tighter spacing around equations than default.
+\AtBeginDocument{%
+  \setlength{\abovedisplayskip}{6pt plus 2pt minus 3pt}%
+  \setlength{\belowdisplayskip}{6pt plus 2pt minus 3pt}%
+  \setlength{\abovedisplayshortskip}{3pt plus 1pt}%
+  \setlength{\belowdisplayshortskip}{3pt plus 1pt}%
+}
+
+% Never let a paragraph start on the same line as a display above it.
+\usepackage{parskip}%  -- deliberately NOT activated; this template uses
+                     %  classic indentation for dense mathematical prose.
+% Paragraph indent + skip tuned for curriculum prose:
+\setlength{\parindent}{1.15em}
+\setlength{\parskip}{2pt plus 1pt}

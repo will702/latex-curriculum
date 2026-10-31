@@ -1,0 +1,152 @@
+% config/environments.tex — Theorem family, examples, exercises, boxes
+% -----------------------------------------------------------------------
+% Requires (loaded in main.tex before this file):
+%   amsmath, amsthm, thmtools, tcolorbox, enumitem, environ,
+%   config/colors, config/commands
+%
+% Design language:
+%   * Definition family : green edge, pale green wash  ("growing ideas")
+%   * Theorem family    : navy edge, pale blue wash    ("core results")
+%   * Remarks/strategies: slate frame, faint wash      ("guidance")
+%   * Exercises         : slate frame on white         ("your turn")
+%   * Challenges        : gold edge, pale gold wash    ("summit")
+%   * Solutions         : blue-gray wash (instructor edition only)
+% All boxes are BREAKABLE — they split cleanly across pages.
+
+% =====================  tcolorbox base styles  =========================
+\usepackage{thmtools}     % \declaretheorem (requires amsthm, already loaded)
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable,theorems}
+\tcbset{
+  curriculum/.style={
+    enhanced, breakable,
+    fonttitle=\sffamily\bfseries\small,
+    coltitle=white,
+    colback=white,
+    boxrule=0.5pt, arc=1.6pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt,
+    before skip=13pt plus 2pt, after skip=13pt plus 2pt,
+    toptitle=3.5pt, bottomtitle=3pt,
+  },
+  defbox/.style={curriculum, colframe=forest, colback=forestlight,
+    leftrule=2.6pt, rightrule=0.5pt, toprule=0.5pt, bottomrule=0.5pt},
+  thmbox/.style={curriculum, colframe=navy, colback=navylight,
+    leftrule=2.6pt, rightrule=0.5pt, toprule=0.5pt, bottomrule=0.5pt},
+  remarkbox/.style={curriculum, colframe=slate, colback=slatelight,
+    boxrule=0.5pt, colbacktitle=slate},
+  exbox/.style={curriculum, colframe=slate!75, colback=white,
+    boxrule=0.6pt, colbacktitle=slate!75,
+    titlerule=0.5pt, titlerule style={slate!45}},
+  chalbox/.style={curriculum, colframe=gold, colback=goldlight,
+    leftrule=2.6pt, rightrule=0.5pt, toprule=0.5pt, bottomrule=0.5pt},
+  solbox/.style={curriculum, colframe=solutionblue!90, colback=solutionlight,
+    boxrule=0.5pt, colbacktitle=solutionblue!90},
+}
+
+% =====================  Theorem machinery  =============================
+% Shared counter across theorem/lemma/proposition/corollary; definitions
+% and examples carry their own per-chapter counters.
+\declaretheorem[style=plain, name=Theorem, parent=chapter]{theorem}
+\declaretheorem[style=plain, name=Lemma, sibling=theorem]{lemma}
+\declaretheorem[style=plain, name=Proposition, sibling=theorem]{proposition}
+\declaretheorem[style=plain, name=Corollary, sibling=theorem]{corollary}
+\declaretheorem[style=definition, name=Definition, parent=chapter]{definition}
+\declaretheorem[style=definition, name=Example, parent=chapter]{example}
+\declaretheorem[style=remark, name=Remark, numbered=unless unique,
+  parent=chapter]{remark}
+\declaretheorem[style=remark, name=Key Idea, parent=chapter]{keyidea}
+\declaretheorem[style=remark, name=Strategy, parent=chapter]{strategy}
+\declaretheorem[style=remark, name=Common Pitfall, parent=chapter]{pitfall}
+
+% Wrap the named environments in their boxes. Proofs stay unboxed
+% (amsthm), typeset in the standard way for maximal readability.
+\tcolorboxenvironment{theorem}{thmbox}
+\tcolorboxenvironment{lemma}{thmbox}
+\tcolorboxenvironment{proposition}{thmbox}
+\tcolorboxenvironment{corollary}{thmbox}
+\tcolorboxenvironment{definition}{defbox}
+\tcolorboxenvironment{example}{exbox}
+\tcolorboxenvironment{remark}{remarkbox}
+\tcolorboxenvironment{keyidea}{remarkbox}
+\tcolorboxenvironment{strategy}{remarkbox}
+\tcolorboxenvironment{pitfall}{%
+  curriculum, colframe=crimson, colback=crimsonlight,
+  leftrule=2.6pt, rightrule=0.5pt, toprule=0.5pt, bottomrule=0.5pt,
+  colbacktitle=crimson}
+
+% Worked solutions inside examples: proof-like block with custom head.
+\newenvironment{exsolution}{\begin{proof}[\normalfont\sffamily\bfseries\color{navy}Solution.]}{\end{proof}}
+
+% =====================  Exercises with difficulty  =====================
+% \begin{exercise}{3}                     -> 3-star exercise
+% \begin{exercise}[label=ex:mylabel]{3}   -> add \label for solutions
+% Optional tcolorbox keys go in the bracketed argument.
+\newtcolorbox[auto counter, number within=chapter]{exercise}[2][]{%
+  exbox,
+  title={Exercise \thetcbcounter\ \hfill \difficulty{#2}},
+  breakable, enhanced,
+  #1
+}
+
+% Challenge problems: gold boxes, separate counter. Stars are the
+% white variant: gold stars would vanish on the gold title bar.
+\newtcolorbox[auto counter, number within=chapter]{challenge}[2][]{%
+  chalbox,
+  title={Challenge \thetcbcounter\ \hfill \difficultywhite{#2}},
+  breakable, enhanced,
+  #1
+}
+
+% =====================  Hints & solutions  =============================
+% Hint: compact slate box for inline or collected hints.
+\newtcolorbox{hint}[1][]{%
+  remarkbox, coltitle=white,
+  left=7pt, right=7pt, top=5pt, bottom=5pt,
+  before skip=9pt, after skip=9pt,
+  title={Hint}, #1
+}
+
+% Solution: matches a labeled exercise; instructor edition only.
+% Usage: \begin{solution}{ex:1-3} ... \end{solution}
+\newtcolorbox{solution}[1]{%
+  solbox,
+  title={Solution to Exercise~\ref{#1}},
+}
+
+% =====================  Chapter furniture  =============================
+% Learning objectives: opening box with checked items.
+\newtcolorbox{objectives}[1][]{%
+  thmbox, title={Learning Objectives}, #1
+}
+% Objective item with gold check bullet (use inside itemize).
+\newcommand{\objective}{\item[\textcolor{gold}{$\checkmark$}]}
+
+% Prerequisites: compact slate box.
+\newtcolorbox{prerequisites}[1][]{%
+  remarkbox, title={Prerequisites}, #1
+}
+
+% Notation table box.
+\newtcolorbox{notation}[1][]{%
+  remarkbox, title={Notation}, #1
+}
+
+% Chapter summary: end-of-chapter distilled results.
+\newtcolorbox{chaptersummary}[1][]{%
+  thmbox, title={Chapter Summary}, #1
+}
+% Summary item with navy triangle bullet (use inside itemize).
+\newcommand{\summaryitem}{\item[\textcolor{navy}{\small$\blacktriangleright$}]}
+
+% =====================  Answer key helper  =============================
+% \answer{42} — quick answer line for answer keys.
+\newcommand{\answer}[1]{\par\smallskip\noindent\labeltext{Answer:} #1\par}
+
+% =====================  Instructor-only note  ==========================
+% Visible only in the instructor edition; absorbed silently otherwise.
+\ifstudent
+  \NewEnviron{instructornote}{}%
+\else
+  \newtcolorbox{instructornote}[1][]{%
+    remarkbox, colbacktitle=crimson, title={Instructor Note}, #1}
+\fi

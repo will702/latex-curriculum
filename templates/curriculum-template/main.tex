@@ -1,0 +1,112 @@
+% main.tex — Curriculum master file (edition-agnostic core)
+% -----------------------------------------------------------
+% Build editions:
+%   latexmk instructor.tex   (or: make instructor)  — includes solutions
+%   latexmk student.tex      (or: make student)     — problems + hints only
+% Wrappers define \studentmark (student) or \instructormark (instructor)
+% BEFORE \input-ing this file.
+\newif\ifstudent
+\ifdefined\studentmark \studenttrue \fi
+
+\documentclass[11pt,a4paper,openany]{book}
+
+% ---- Foundations (order matters) ---------------------------
+\usepackage{xcolor}
+\input{config/colors}
+\usepackage{etoolbox}
+\usepackage{environ}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+% ---- Fonts & typography (LuaLaTeX) ---------------------------
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\input{config/typography}
+
+% ---- Layout ---------------------------------------------------
+\input{config/layout}
+
+% ---- Graphics & tables -----------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,calc,decorations.pathreplacing}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{caption}
+\captionsetup{font=small, labelfont={bf,color=navy}, skip=6pt}
+
+% ---- Author macros & environments -----------------------------
+\input{config/commands}
+\ifstudent\else
+  \renewcommand{\CurriculumEdition}{Instructor Edition}
+\fi
+\usepackage{enumitem}
+\input{config/environments}
+
+% ---- Bibliography ---------------------------------------------
+\usepackage[numbers,sort&compress]{natbib}
+\bibliographystyle{plainnat}
+\renewcommand{\bibsection}{\chapter{References and Further Reading}}
+
+% ---- Hyperlinks (near-last) ------------------------------------
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks = true,
+  linkcolor  = linkcolor,
+  citecolor  = citecolor,
+  urlcolor   = urlcolor,
+  pdftitle   = {\CurriculumTitle},
+  pdfauthor  = {\CurriculumAuthor},
+  pdfsubject = {\CurriculumSeries},
+  bookmarksnumbered = true,
+  bookmarksopen     = true,
+  bookmarksopenlevel= 1,
+}
+\usepackage{bookmark}
+\usepackage{cleveref}   % always last
+% cleveref names for our custom environments (must follow cleveref load).
+\crefname{tcb@cnt@exercise}{Exercise}{Exercises}
+\crefname{tcb@cnt@challenge}{Challenge}{Challenges}
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{proposition}{Proposition}{Propositions}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{definition}{Definition}{Definitions}
+\crefname{example}{Example}{Examples}
+\crefname{keyidea}{Key Idea}{Key Ideas}
+\crefname{strategy}{Strategy}{Strategies}
+\crefname{pitfall}{Pitfall}{Pitfalls}
+
+% ---- Optional single-chapter builds ---------------------------
+% `make chapter C=2` writes <edition>-include.tex, picked up here.
+\IfFileExists{\jobname-include.tex}{\input{\jobname-include.tex}}{}
+
+% ===================  DOCUMENT  =================================
+\begin{document}
+
+\input{components/frontmatter}
+
+\mainmatter
+% CHAPTERS:BEGIN — scripts/add-chapter.sh inserts \input lines here
+\input{chapters/chapter-01}
+% CHAPTERS:END
+
+\ifstudent
+  \backmatter
+  \chapter*{About the Solutions}
+  \addcontentsline{toc}{chapter}{About the Solutions}
+  Complete solutions to all exercises and challenges in this volume are
+  published separately in the companion \emph{Instructor Edition}.
+  Hints for every problem appear at the end of each chapter---try the
+  problem first; hints are ordered so that earlier hints spoil less.
+\fi
+
+% Bibliography
+\bibliography{references/bibliography}
+
+\end{document}

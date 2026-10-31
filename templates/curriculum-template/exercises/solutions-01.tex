@@ -1,0 +1,190 @@
+% exercises/solutions-01.tex — Full solutions for Chapter 1
+% Rendered in the instructor edition only (guarded in the chapter).
+
+% ---------- Exercise 1.1 -------------------------------------------------
+\begin{solution}{ex:1-1}
+Apply AM--GM (\cref{thm:amgm2}) to the pair
+$\big(x, \tfrac{4}{x}\big)$, whose product is $4$:
+\[
+  x + \frac{4}{x} \;\ge\; 2\sqrt{x \cdot \frac{4}{x}} = 2\sqrt4 = 4 .
+\]
+Equality holds iff $x = \tfrac{4}{x}$, i.e.\ $x = 2$.
+\answer{$x + 4/x = 4$ exactly at $x = 2$.}
+\end{solution}
+
+% ---------- Exercise 1.2 -------------------------------------------------
+\begin{solution}{ex:1-2}
+Expanding,
+\[
+  (a+b)\left(\frac1a + \frac1b\right)
+  = 1 + \frac{a}{b} + \frac{b}{a} + 1
+  = 2 + \frac{a}{b} + \frac{b}{a}.
+\]
+By AM--GM on the pair $\big(\tfrac{a}{b}, \tfrac{b}{a}\big)$, whose
+product is $1$,
+\[
+  \frac{a}{b} + \frac{b}{a} \ge 2 ,
+\]
+so the original expression is at least $4$. Equality holds iff
+$\tfrac{a}{b} = \tfrac{b}{a}$, i.e.\ $a = b$.
+\end{solution}
+
+% ---------- Exercise 1.3 -------------------------------------------------
+\begin{solution}{ex:1-3}
+By Cauchy--Schwarz (\cref{thm:cs}) applied to $(1,1,1)$ and
+$(a,b,c)$,
+\[
+  (a+b+c)^2 \;\le\; 3\,(a^2+b^2+c^2).
+\]
+Since $a+b+c = 1$, this gives $a^2+b^2+c^2 \ge \tfrac13$. Equality
+holds iff $(a,b,c)$ is proportional to $(1,1,1)$, i.e.\
+$a=b=c=\tfrac13$.
+\end{solution}
+
+% ---------- Exercise 1.4 -------------------------------------------------
+\begin{solution}{ex:1-4}
+Multiply the target by $2$ and rearrange:
+\[
+  2(a^2+b^2+c^2) - 2(ab+bc+ca)
+  = (a-b)^2 + (b-c)^2 + (c-a)^2 \;\ge\; 0,
+\]
+a sum of squares. Equality holds iff $a = b = c$. Note this is
+exactly the identity used in \cref{ex:nesbitt}.
+\end{solution}
+
+% ---------- Exercise 1.5 -------------------------------------------------
+\begin{solution}{ex:1-5}
+By AM--GM for three variables (\cref{thm:amgm}, $n=3$),
+\[
+  \frac{x+y+z}{3} \;\ge\; \sqrt[3]{xyz} = \sqrt[3]{1} = 1,
+\]
+so $x+y+z \ge 3$. Equality holds iff $x=y=z=1$.
+\end{solution}
+
+% ---------- Exercise 1.6 -------------------------------------------------
+\begin{solution}{ex:1-6}
+Apply \cref{thm:amgm2} to each factor:
+\[
+  x+y \ge 2\sqrt{xy}, \qquad
+  y+z \ge 2\sqrt{yz}, \qquad
+  z+x \ge 2\sqrt{zx}.
+\]
+All three left sides are positive, so multiplying the inequalities is
+legitimate:
+\[
+  (x+y)(y+z)(z+x) \;\ge\; 8\sqrt{xy \cdot yz \cdot zx}
+  = 8\sqrt{x^2y^2z^2} = 8xyz .
+\]
+Equality holds iff $x=y=z$.
+\end{solution}
+
+% ---------- Exercise 1.7 -------------------------------------------------
+\begin{solution}{ex:1-7}
+By Cauchy--Schwarz applied to
+$(\sqrt a, \sqrt b, \sqrt c)$ and $(1,1,1)$,
+\[
+  (\sqrt a + \sqrt b + \sqrt c)^2
+  \;\le\; 3\,(a+b+c) = 18,
+\]
+so $\sqrt a + \sqrt b + \sqrt c \le 3\sqrt2$.
+\answer{Maximum $= 3\sqrt2$, attained only at $(a,b,c) = (2,2,2)$.}
+Equality in Cauchy--Schwarz requires
+$(\sqrt a, \sqrt b, \sqrt c)$ proportional to $(1,1,1)$, i.e.\
+$a=b=c$; combined with $a+b+c=6$ this forces $a=b=c=2$, which
+indeed gives $3\sqrt2$. Since the domain $\{a,b,c \ge 0,\;
+a+b+c=6\}$ is compact and the objective is continuous, the maximum
+exists, so the bound is sharp.
+\end{solution}
+
+% ---------- Exercise 1.8 -------------------------------------------------
+\begin{solution}{ex:1-8}
+Apply the Engel form (\cref{cor:engel}) to the three fractions:
+\[
+  \frac{x^2}{y+z} + \frac{y^2}{z+x} + \frac{z^2}{x+y}
+  \;\ge\;
+  \frac{(x+y+z)^2}{(y+z)+(z+x)+(x+y)}
+  = \frac{(x+y+z)^2}{2(x+y+z)}
+  = \frac{x+y+z}{2} .
+\]
+Equality holds iff $\tfrac{x}{y+z} = \tfrac{y}{z+x} = \tfrac{z}{x+y}$,
+which (cross-multiplying and subtracting) forces $x=y=z$.
+\end{solution}
+
+% ---------- Challenge 1 ---------------------------------------------------
+\begin{solution}{ch:1-1}
+Following the hint, we prove the pointwise bound
+\[
+  \frac{a^3}{a^2+ab+b^2} \;\ge\; \frac{2a-b}{3} .
+\]
+Since $a^2+ab+b^2 > 0$, clearing denominators shows the difference is
+\[
+  3a^3 - (2a-b)(a^2+ab+b^2)
+  \;=\; 3a^3 - \big(2a^3 + a^2b + ab^2 - b^3\big)
+  \;=\; (a+b)(a-b)^2 \;\ge\; 0,
+\]
+where the factorization is verified by expanding
+$(a+b)(a-b)^2 = a^3 - a^2b - ab^2 + b^3$. Equality holds iff $a=b$.
+Applying the same bound to the other two cyclic terms and summing,
+\[
+  \sum_{\text{cyc}} \frac{a^3}{a^2+ab+b^2}
+  \;\ge\;
+  \frac{(2a-b) + (2b-c) + (2c-a)}{3}
+  = \frac{a+b+c}{3} .
+\]
+Equality requires $a=b$, $b=c$, and $c=a$ simultaneously---that is,
+$a=b=c$, where both sides indeed agree (each fraction equals
+$\tfrac{a}{3}$).
+\end{solution}
+
+% ---------- Challenge 2 (IMO 2001/2) --------------------------------------
+\begin{solution}{ch:1-2}
+Write $S = a+b+c$. We chain three estimates.
+
+\emph{Step 1 (Engel).} Writing each term as a square over a product,
+\[
+  \sum_{\text{cyc}} \frac{a}{\sqrt{a^2+8bc}}
+  = \sum_{\text{cyc}} \frac{a^2}{a\sqrt{a^2+8bc}}
+  \;\ge\; \frac{S^2}{\displaystyle\sum_{\text{cyc}} a\sqrt{a^2+8bc}}
+  \;\eqqcolon\; \frac{S^2}{T},
+\]
+by \cref{cor:engel} applied with numerators $a$ and denominators
+$b = a\sqrt{a^2+8bc}$.
+
+\emph{Step 2 (Cauchy--Schwarz).} Apply \cref{thm:cs} to the vectors
+$\big(\sqrt a\big)$ and $\big(\sqrt{a\,(a^2+8bc)}\big)$:
+\[
+  T^2
+  = \left(\sum_{\text{cyc}} \sqrt{a} \cdot
+      \sqrt{a(a^2+8bc)}\right)^{\!2}
+  \le S \cdot \left(a^3+b^3+c^3 + 24abc\right).
+\]
+
+\emph{Step 3 (expansion + AM--GM).} We claim
+\[
+  a^3+b^3+c^3+24abc \;\le\; S^3 .
+\]
+Expanding,
+\[
+  S^3 = a^3+b^3+c^3
+  + 3\!\!\sum_{\text{sym}}\! a^2b \; + 6abc,
+\]
+where $\sum_{\text{sym}} a^2b = a^2b + a^2c + ab^2 + b^2c + ac^2 +
+bc^2$. It remains to show $18abc \le 3\sum_{\text{sym}} a^2b$, i.e.\
+$6abc \le \sum_{\text{sym}} a^2b$. This is AM--GM
+(\cref{thm:amgm}) applied to the \emph{six} terms of the symmetric
+sum: their product is
+\[
+  (a^2b)(a^2c)(ab^2)(b^2c)(ac^2)(bc^2) = a^6 b^6 c^6,
+\]
+so their geometric mean is $abc$ and their sum is at least $6abc$.
+
+\emph{Conclusion.} Combining,
+\[
+  T \le \sqrt{S \cdot S^3} = S^2
+  \qquad\Longrightarrow\qquad
+  \sum_{\text{cyc}} \frac{a}{\sqrt{a^2+8bc}}
+  \;\ge\; \frac{S^2}{T} \ge \frac{S^2}{S^2} = 1 .
+\]
+Equality in every step requires $a=b=c$: then each term equals
+$\tfrac{a}{\sqrt{9a^2}} = \tfrac13$ and the sum is exactly $1$.
+\end{solution}

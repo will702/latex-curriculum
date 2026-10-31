@@ -1,0 +1,33 @@
+% components/chapter-summary.tex — End-of-chapter distillation
+% Reusable pattern: a chaptersummary box with \summaryitem bullets.
+\begin{chaptersummary}
+\begin{itemize}
+  \summaryitem \textbf{AM--GM (\cref{thm:amgm2}, \cref{thm:amgm}).}
+    $\dfrac{a_1 + \cdots + a_n}{n} \ge \sqrt[n]{a_1 \cdots a_n}$ for
+    positive reals; equality iff all entries are equal. Proved by
+    Cauchy's forward--backward induction: $P(2)$, $P(n) \Rightarrow
+    P(2n)$, $P(n) \Rightarrow P(n{-}1)$.
+  \summaryitem \textbf{Cauchy--Schwarz (\cref{thm:cs}).}
+    $\big(\sum a_kb_k\big)^2 \le \big(\sum a_k^2\big)\big(\sum
+    b_k^2\big)$; equality iff the vectors are proportional. Two
+    proofs: the discriminant trick on $\sum (a_kt + b_k)^2 \ge 0$,
+    and the Lagrange identity
+    $\sum_{i<j}(a_ib_j - a_jb_i)^2$.
+  \summaryitem \textbf{Engel form (\cref{cor:engel}).}
+    $\sum \dfrac{a_k^2}{b_k} \ge \dfrac{(\sum a_k)^2}{\sum b_k}$ for
+    $b_k > 0$: the homogenizing workhorse for fraction sums
+    (\cref{str:engel}).
+  \summaryitem \textbf{The equality case is the problem.} Every
+    application above pins down \emph{when} equality holds; a
+    solution without this analysis is incomplete.
+\end{itemize}
+\end{chaptersummary}
+
+\begin{notation}
+\begin{tabular}{@{}ll@{}}
+  $\Positive$ & strictly positive reals \\
+  $\sumk$ & $\sum_{k=1}^{n}$ \\
+  $\sum_{\text{sym}} a^2b$ & $a^2b + a^2c + ab^2 + b^2c + ac^2 + bc^2$ \\
+  $\sum_{\text{cyc}} f(a,b,c)$ & $f(a,b,c) + f(b,c,a) + f(c,a,b)$ \\
+\end{tabular}
+\end{notation}

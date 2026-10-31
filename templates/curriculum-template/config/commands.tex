@@ -1,0 +1,76 @@
+% config/commands.tex — Author-facing macros: notation, difficulty, tags
+% -----------------------------------------------------------------------
+% Requires: xcolor, amsmath, amssymb, tikz (shapes.geometric) — all
+% loaded in main.tex before this file.
+
+% =====================  Difficulty indicators  =========================
+% \difficulty{n} renders n filled stars + (5-n) empty stars, gold.
+% Convention: * = routine, ** = standard olympiad, *** = hard,
+%             **** = very hard (national team), ***** = IMO P3/P6 level.
+\usetikzlibrary{shapes.geometric}
+% One inline star; #1 = fill color, #2 = draw color.
+\newcommand{\staricon}[2]{%
+  \begin{tikzpicture}[baseline=(s.center)]
+    \node[star, star points=5, star point ratio=2.3, inner sep=0.85pt,
+          fill=#1, draw=#2, line width=0.45pt] (s) {};
+  \end{tikzpicture}%
+}
+\newcommand{\filledstars}[1]{% #1 filled stars remain
+  \ifnum#1>0 \staricon{gold}{gold}\expandafter\filledstars\expandafter{\the\numexpr#1-1}\fi
+}
+\newcommand{\emptystars}[1]{% #1 outline stars remain
+  \ifnum#1>0 \staricon{white}{rulegray}\expandafter\emptystars\expandafter{\the\numexpr#1-1}\fi
+}
+\newcommand{\difficulty}[1]{\filledstars{#1}\emptystars{\numexpr5-#1\relax}}
+
+% Variant for use on colored title bars (e.g. gold challenge bars):
+% white filled stars, pale-gold outline stars.
+\newcommand{\filledstarsW}[1]{%
+  \ifnum#1>0 \staricon{white}{white}\expandafter\filledstarsW\expandafter{\the\numexpr#1-1}\fi
+}
+\newcommand{\emptystarsW}[1]{%
+  \ifnum#1>0 \staricon{white}{gold!45}\expandafter\emptystarsW\expandafter{\the\numexpr#1-1}\fi
+}
+\newcommand{\difficultywhite}[1]{\filledstarsW{#1}\emptystarsW{\numexpr5-#1\relax}}
+
+% Text difficulty badge for prose: \difficultytext{2} -> "Level 2"
+\newcommand{\difficultytext}[1]{\textbf{\color{gold}Level #1}}
+
+% =====================  Problem metadata  ==============================
+% \source{...} — right-aligned provenance tag, e.g. \source{IMO 2005, P1}
+\newcommand{\source}[1]{\hfill{\small\sffamily\itshape\color{slate}[#1]}\par}
+
+% \points{n} — optional point value tag for assessments.
+\newcommand{\points}[1]{\hfill{\small\sffamily\color{slate}(#1~pt)}\par}
+
+% =====================  Number sets  ====================================
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Positive}{\R_{>0}}   % strictly positive reals
+
+% =====================  General math shortcuts  ========================
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+% Display-style fractions and sums for inline use:
+\newcommand{\ds}{\displaystyle}
+% Standard big operators with canonical limits:
+\newcommand{\sumi}{\sum_{i=1}^{n}}
+\newcommand{\sumk}{\sum_{k=1}^{n}}
+% QED-flavored end-of-proof symbol is provided by amsthm (\qedhere).
+
+% =====================  Curriculum metadata  ===========================
+% Overridden per project (see scripts/init-curriculum.sh).
+\newcommand{\CurriculumSeries}{Mathematics Olympiad Series}
+\newcommand{\CurriculumTitle}{Curriculum Title}
+\newcommand{\CurriculumSubtitle}{Subtitle: Volume and Level}
+\newcommand{\CurriculumAuthor}{Author Name}
+\newcommand{\CurriculumInstitution}{Institution}
+\newcommand{\CurriculumDate}{\today}
+\newcommand{\CurriculumEdition}{Student Edition}
+\newcommand{\CurriculumVersion}{v0.1.0}
